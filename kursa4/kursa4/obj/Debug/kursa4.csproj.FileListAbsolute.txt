@@ -1,0 +1,13 @@
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.csprojAssemblyReference.cache
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.Form1.resources
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.Properties.Resources.resources
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.csproj.GenerateResource.cache
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.csproj.CoreCompileInputs.cache
+C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\kursa4.exe.config
+C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\kursa4.exe
+C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\kursa4.pdb
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.exe
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.pdb
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.Form2.resources
+C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\Database1.mdf
+C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\Database1_log.ldf
