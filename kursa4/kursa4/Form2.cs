@@ -39,13 +39,15 @@ namespace kursa4
         private void button1_Click(object sender, EventArgs e)
         {
             Form1 frm1 = new Form1();
-            string row1 = "";
-            string row2 = "";
-            row1 = textBox1.Text;
-            row2 = textBox2.Text;
+            string row1 = textBox1.ToString(); 
+            string row2 = textBox2.ToString();
+            
             int index = Convert.ToInt32(label3.Text);
-            frm1.setValueRow(row1, row2, index);
 
+            frm1.changeRow(row1,row2,index);
+
+                
+            
         }
 
         private void button2_Click(object sender, EventArgs e)

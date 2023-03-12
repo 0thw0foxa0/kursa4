@@ -34,11 +34,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.выводTableAdapter = new kursa4.СкладDataSetTableAdapters.ВыводTableAdapter();
-            this.складDataSet = new kursa4.СкладDataSet();
+          
             this.label3 = new System.Windows.Forms.Label();
             this.button2 = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.складDataSet)).BeginInit();
+   
             this.SuspendLayout();
             // 
             // textBox1
@@ -96,12 +95,11 @@
             // 
             // выводTableAdapter
             // 
-            this.выводTableAdapter.ClearBeforeFill = true;
+            
             // 
             // складDataSet
             // 
-            this.складDataSet.DataSetName = "СкладDataSet";
-            this.складDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+           
             // 
             // label3
             // 
@@ -141,7 +139,7 @@
             this.MinimumSize = new System.Drawing.Size(350, 315);
             this.Name = "Form2";
             this.Text = "Form2";
-            ((System.ComponentModel.ISupportInitialize)(this.складDataSet)).EndInit();
+            
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,8 +152,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.CheckBox checkBox1;
-        private СкладDataSetTableAdapters.ВыводTableAdapter выводTableAdapter;
-        private СкладDataSet складDataSet;
+    
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button button2;
     }
