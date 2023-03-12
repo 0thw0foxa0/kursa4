@@ -29,17 +29,40 @@ namespace kursa4
         {
 
         }
-        public void getValueRows(string row1, string row2)
+        public void getValueRows(string row1, string row2, int index)
         {
             textBox1.Text = row2;
             textBox2.Text = row1;
+            label3.Text = Convert.ToString(index);
             
         }
         private void button1_Click(object sender, EventArgs e)
         {
             Form1 frm1 = new Form1();
-            
+            string row1 = "";
+            string row2 = "";
+            row1 = textBox1.Text;
+            row2 = textBox2.Text;
+            int index = Convert.ToInt32(label3.Text);
+            frm1.setValueRow(row1, row2, index);
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Form1 frm1 = new Form1(); 
+               string row1 = textBox1.Text;
+               string row2 = textBox2.Text;
+               
+
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+            }
         }
     }
 }
