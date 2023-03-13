@@ -14,20 +14,25 @@ namespace kursa4
 {
     public partial class Form1 : Form
     {
-         Form2 frm2 = new Form2();
 
         private SqlConnection sqlConnection = null;
-        private SqlCommandBuilder sqlBuilder  = null;
+        private SqlCommandBuilder sqlBuilder = null;
         private SqlDataAdapter sqlDataAdapter = null;
         private DataSet dataSet = null;
         public bool newRowAdding = false;
         public string TableName = "Items";
-        public int [] IndexCommand= {3};
+        int[] IndexCommand = new int[3] {3,4,6};
         public int TableIndex = 0;
+
+            
+        
+
         public Form1()
         {
-            InitializeComponent(); 
-        }
+            InitializeComponent();
+             
+       
+    }
         private void Form1_Load(object sender, EventArgs e)
         {
             sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladb\source\repos\kursa4\kursa4\Database1.mdf;Integrated Security=True");
@@ -43,9 +48,16 @@ namespace kursa4
 
         private void LoadData()
         {
+            
             try
-            { 
-                    sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Delete] FROM "+TableName, sqlConnection);
+            {
+                if (dataGridView1 != null)
+                {
+                  
+                    dataGridView1.Refresh();
+                }
+                
+                    sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Delete] FROM " + TableName, sqlConnection);
 
                     sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
 
@@ -61,12 +73,12 @@ namespace kursa4
 
                 dataGridView1.DataSource = dataSet.Tables[TableName];
 
-                    for( int i=0; i<dataGridView1.Rows.Count; i++)
+                    for( int i=0; i<IndexCommand[TableIndex]; i++)
                     {
                         DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
                         dataGridView1[IndexCommand[TableIndex], i] = linkCell;
                     }
-                
+                label1.Text = Convert.ToString(IndexCommand[TableIndex]);
 
 
             }
@@ -104,45 +116,9 @@ namespace kursa4
        
 
 
-        private void button2_Click(object sender, EventArgs e) // del
-        {
-            DialogResult dr = MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
-            if (dr == DialogResult.Cancel)
-            {
-                return;
-            }
-            else {
-                
-                int index = dataGridView1.SelectedRows[0].Index;
-                dataGridView1.Rows.RemoveAt(index);
-                dataSet.Tables[TableName].Rows[index].Delete();
-                sqlDataAdapter.Update(dataSet, TableName);
-            }
-        }
+        
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                int index = dataGridView1.SelectedRows[0].Index;
-                if (index >= 0)
-                {
-                    DataGridViewRow row = this.dataGridView1.Rows[index];
-                    string row1 = row.Cells["Count"].Value.ToString();
-                    string row2 = row.Cells["description"].Value.ToString();
-
-                    Form2 frm2 = new Form2();
-                    frm2.Show();
-                    frm2.getValueRows(row1, row2, index);
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
-            }
-
-        }
+    
 
         private void dataGridView1_UserAddedRow_1(object sender, DataGridViewRowEventArgs e)
         {
@@ -199,9 +175,12 @@ namespace kursa4
                         int rowIndex = dataGridView1.Rows.Count - 2;
 
                         DataRow row = dataSet.Tables[TableName].NewRow();
+                        if (TableIndex == 0)
+                        {
+                            row["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
+                            row["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
 
-                        row["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
-                        row["description"] =  dataGridView1.Rows[rowIndex].Cells["description"].Value;
+                        }
 
                         dataSet.Tables[TableName].Rows.Add(row);
 
@@ -217,8 +196,12 @@ namespace kursa4
                     else if (task == "Update")
                     {
                         int rowIndex = e.RowIndex;
-                        dataSet.Tables[TableName].Rows[rowIndex]["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
-                        dataSet.Tables[TableName].Rows[rowIndex]["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
+                        if (TableIndex == 0)
+                        {
+                            dataSet.Tables[TableName].Rows[rowIndex]["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
+
+                        }
 
                         sqlDataAdapter.Update(dataSet, TableName);
                         dataGridView1.Rows[e.RowIndex].Cells[IndexCommand[TableIndex]].Value = "Delete";
@@ -285,55 +268,15 @@ namespace kursa4
 
 
 
-       public void changeRow(string row1, string row2,int index)
-        {
-            try
-            {
-                //dataSet.Tables[TableName].Rows[index]["Count"] = row1;
-                //dataSet.Tables[TableName].Rows[index]["description"] = row2;
-
-                int RowIndex = index;
-                //dataGridView1.Rows[RowIndex].Cells["description"].Value = row2;
-                //dataGridView1.Rows[RowIndex].Cells["Count"].Value = row1;
-
-                
-                dataSet.Tables[TableName].Rows[RowIndex]["Count"] = dataGridView1.Rows[RowIndex].Cells["Count"].Value;
-                dataSet.Tables[TableName].Rows[RowIndex]["description"] = dataGridView1.Rows[RowIndex].Cells["description"].Value;
-
-                sqlDataAdapter.Update(dataSet, TableName);
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
-            
-            }
-           
-        }
+      
 
 
 
 
 
-        private void SaveBtn_Click_1(object sender, EventArgs e)
-        {
-            try
-            {
-                saveData();
-                MessageBox.Show("Вроде сохранилось", "Сохранилось?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
-            }
 
 
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -352,18 +295,17 @@ namespace kursa4
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-
+            TableName = "Items";
+            TableIndex = 0;
+            LoadData();
+            saveData();
         }
 
        
 
         private void dataGridView1_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
         {
-            //DialogResult dr = MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
-            //if (dr == DialogResult.Cancel)
-            //{
-            //    return;
-            //}
+            
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -380,6 +322,109 @@ namespace kursa4
             frm3.Show();
 
         }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            TableName = "Requsts";
+            TableIndex = 1;
+            LoadData();
+            
+    }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            TableName = "Test";
+            TableIndex = 2;
+            LoadData();
+        }
     }
     
 }
+//public void changeRow(string row1, string row2, int index)
+//{
+//    try
+//    {
+//        //dataSet.Tables[TableName].Rows[index]["Count"] = row1;
+//        //dataSet.Tables[TableName].Rows[index]["description"] = row2;
+
+//        int RowIndex = index;
+//        //dataGridView1.Rows[RowIndex].Cells["description"].Value = row2;
+//        //dataGridView1.Rows[RowIndex].Cells["Count"].Value = row1;
+
+
+//        dataSet.Tables[TableName].Rows[RowIndex]["Count"] = dataGridView1.Rows[RowIndex].Cells["Count"].Value;
+//        dataSet.Tables[TableName].Rows[RowIndex]["description"] = dataGridView1.Rows[RowIndex].Cells["description"].Value;
+
+//        sqlDataAdapter.Update(dataSet, TableName);
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+
+//    }
+
+//}
+//private void button2_Click(object sender, EventArgs e) // del
+//{
+//    DialogResult dr = MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
+//    if (dr == DialogResult.Cancel)
+//    {
+//        return;
+//    }
+//    else
+//    {
+
+//        int index = dataGridView1.SelectedRows[0].Index;
+//        dataGridView1.Rows.RemoveAt(index);
+//        dataSet.Tables[TableName].Rows[index].Delete();
+//        sqlDataAdapter.Update(dataSet, TableName);
+//    }
+//}
+
+
+//private void button3_Click(object sender, EventArgs e)
+//{
+//    try
+//    {
+//        int index = dataGridView1.SelectedRows[0].Index;
+//        if (index >= 0)
+//        {
+//            DataGridViewRow row = this.dataGridView1.Rows[index];
+//            string row1 = row.Cells["Count"].Value.ToString();
+//            string row2 = row.Cells["description"].Value.ToString();
+
+//            Form2 frm2 = new Form2();
+//            frm2.Show();
+//            frm2.getValueRows(row1, row2, index);
+
+//        }
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+//    }
+
+//}
+
+//private void button4_Click(object sender, EventArgs e)
+//{
+
+//}
+
+
+
+//private void SaveBtn_Click_1(object sender, EventArgs e)
+//{
+//    try
+//    {
+//        saveData();
+//        MessageBox.Show("Вроде сохранилось", "Сохранилось?", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
+//    }
+//    catch (Exception ex)
+//    {
+//        MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+//    }
+
+
+//}
