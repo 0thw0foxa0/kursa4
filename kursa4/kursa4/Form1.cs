@@ -366,7 +366,20 @@ namespace kursa4
             //}
         }
 
+        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
 
+        }
+
+        private void btnSettingsPage_Click(object sender, EventArgs e)
+        {
+            // panel3 // Основная панель
+            Form3 frm3 = new Form3() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
+            panel3.Controls.Clear();
+            panel3.Controls.Add(frm3);
+            frm3.Show();
+
+        }
     }
     
 }
