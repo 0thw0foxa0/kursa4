@@ -22,13 +22,13 @@ namespace kursa4
         private DataSet dataSet = null;
         public bool newRowAdding = false;
         public string TableName = "Items";
-        public static int[] IndexCommand = { 3, 4, 6 };
-        
+        //public static int[] IndexCommand = { 3, 4, 6 };
+        List<int> IndexCommand = new List<int>() { 3,4,6 };
         public int TableIndex = 0;
-
-            
-        
-
+        private Form currentChildForm;
+        public int IndexPaint = 0;
+        public bool IsMain = true;
+        Form3 frm3 = new Form3();
         public Form1()
         {
             InitializeComponent();
@@ -268,16 +268,37 @@ namespace kursa4
         }
 
 
-
-      
-
+       
 
 
 
 
+        public void PaintAll(int CurrentIndex)
+        {
+            int[] Darkpainting1={39,39,58};
+            int[] Darkpainting2= { 51, 51, 72 };
+            int[] Whitepainting1 = { 230, 255, 255 };
+            int[] Whitepainting2 = { 210, 245, 245 };
+
+            if (CurrentIndex == IndexPaint)
+            {
+                return;
+            }
+            //dataGridView1.BackgroundColor=
 
 
-        
+
+
+            if (CurrentIndex == 2)
+            {
+
+            }
+
+        }
+
+
+
+
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
@@ -317,10 +338,12 @@ namespace kursa4
         private void btnSettingsPage_Click(object sender, EventArgs e)
         {
             // panel3 // Основная панель
-            Form3 frm3 = new Form3() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
-            panel3.Controls.Clear();
-            panel3.Controls.Add(frm3);
-            frm3.Show();
+            //Form3 frm3 = new Form3() { Dock = DockStyle.Fill, TopLevel = false, TopMost = true };
+            //panel3.Controls.Clear();
+            //panel3.Controls.Add(frm3);
+            //frm3.Show();
+            
+            /*frm3.Controls.SetChildIndex();*//*Panel1.Controls.SetChildIndex(c, zIndex - 1);*/
 
         }
 
@@ -341,8 +364,39 @@ namespace kursa4
             TableIndex = 2;
             LoadData();
         }
+
+        private void btnSettingsPage_Click_1(object sender, EventArgs e)
+        {
+          
+            //tableLayoutPanel2.Visible = false;
+            frm3.TopLevel = false;
+            frm3.FormBorderStyle = FormBorderStyle.None;
+            frm3.Dock = DockStyle.Fill;
+            panel3.Dock = DockStyle.None;
+            panel2.Controls.Add(frm3);
+            //panel2.Tag = frm3;
+
+            frm3.BringToFront();
+            frm3.Show();
+            IsMain = false;
+        }
+
+        private void btnMainPage_Click(object sender, EventArgs e)
+        {
+            panel3.Dock = DockStyle.Top;
+            //Dock = DockStyle.Fill;
+            //tableLayoutPanel2.Visible = true ;
+            panel3.Controls.Add(tableLayoutPanel2);
+            panel2.Controls.Remove(frm3);
+            
+
+            IsMain = true;
+        }
     }
-    
+
+   
+
+   
 }
 //public void changeRow(string row1, string row2, int index)
 //{
