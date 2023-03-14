@@ -16,5 +16,6 @@ namespace kursa4
         {
             InitializeComponent();
         }
+        
     }
 }

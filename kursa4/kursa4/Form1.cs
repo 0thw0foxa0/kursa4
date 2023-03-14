@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace kursa4
 {
+    
     public partial class Form1 : Form
     {
 
@@ -21,7 +22,8 @@ namespace kursa4
         private DataSet dataSet = null;
         public bool newRowAdding = false;
         public string TableName = "Items";
-        int[] IndexCommand = new int[3] {3,4,6};
+        public static int[] IndexCommand = { 3, 4, 6 };
+        
         public int TableIndex = 0;
 
             
@@ -39,7 +41,7 @@ namespace kursa4
 
             sqlConnection.Open();
 
-            LoadData();
+            
             radioButton1.Checked = true;
         }
         /// <summary>
@@ -51,11 +53,7 @@ namespace kursa4
             
             try
             {
-                if (dataGridView1 != null)
-                {
-                  
-                    dataGridView1.Refresh();
-                }
+                
                 
                     sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Delete] FROM " + TableName, sqlConnection);
 
@@ -73,7 +71,7 @@ namespace kursa4
 
                 dataGridView1.DataSource = dataSet.Tables[TableName];
 
-                    for( int i=0; i<IndexCommand[TableIndex]; i++)
+                    for( int i=0; i<dataGridView1.Rows.Count; i++)
                     {
                         DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
                         dataGridView1[IndexCommand[TableIndex], i] = linkCell;
@@ -113,7 +111,10 @@ namespace kursa4
            
         }
 
-       
+      
+           
+
+            
 
 
         
@@ -327,6 +328,9 @@ namespace kursa4
         {
             TableName = "Requsts";
             TableIndex = 1;
+            //int tmp = IndexCommand[0];
+            //IndexCommand[0]= IndexCommand[1];
+            //IndexCommand[1] = tmp;
             LoadData();
             
     }
