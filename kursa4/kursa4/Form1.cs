@@ -268,32 +268,49 @@ namespace kursa4
         }
 
 
-       
-
-
-
-
-        public void PaintAll(int CurrentIndex)
+       public void PaintElementsDark(int[] paint1, int[]paint2 )
         {
-            int[] Darkpainting1={39,39,58};
-            int[] Darkpainting2= { 51, 51, 72 };
-            int[] Whitepainting1 = { 230, 255, 255 };
-            int[] Whitepainting2 = { 210, 245, 245 };
 
+            panelLogo.BackColor = Color.FromArgb(paint1[0],paint1[1],paint1[2]);
+            tableLayoutPanel2.BackColor = Color.FromArgb(paint1[0], paint1[1], paint1[2]);
+            dataGridView1.BackgroundColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+            panelMenu.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+
+        }
+
+
+
+
+        public void ChooseColor(int CurrentIndex)
+        {
             if (CurrentIndex == IndexPaint)
             {
                 return;
             }
-            //dataGridView1.BackgroundColor=
-
-
-
+            if (CurrentIndex == 0)
+            {
+                int[] painting1 = { 39, 39, 58 };
+                int[] painting2 = { 51, 51, 72 };
+                PaintElementsDark(painting1,painting2);
+                foreach (Label l in Controls.OfType<Label>())
+                {
+                    l.ForeColor = Color.White;
+                }
+                
+            }
+            else if (CurrentIndex == 1)
+            {
+                int[] painting1 = { 230, 255, 255 };
+                int[] painting2 = { 210, 245, 245 };
+                PaintElementsDark(painting1, painting2);
+            }
+                                          
 
             if (CurrentIndex == 2)
             {
 
             }
-
+            IndexPaint = CurrentIndex;
         }
 
 
