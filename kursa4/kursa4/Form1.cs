@@ -22,9 +22,7 @@ namespace kursa4
         private DataSet dataSet = null;
         public bool newRowAdding = false;
         public string TableName = "Items";
-        //public static int[] IndexCommand = { 3, 4, 6 };
-        List<int> IndexCommand = new List<int>() { 3,4,6 };
-        public int TableIndex = 0;
+         int TableIndex = 3;
         private Form currentChildForm;
         public int IndexPaint = 0;
         public bool IsMain = true;
@@ -53,9 +51,13 @@ namespace kursa4
             
             try
             {
+                if (sqlBuilder != null){
+                    sqlBuilder = null;
+                    dataSet = null;
+                }
                 
                 
-                    sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Delete] FROM " + TableName, sqlConnection);
+                    sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
 
                     sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
 
@@ -66,17 +68,18 @@ namespace kursa4
                     sqlBuilder.GetDeleteCommand();
 
                     dataSet = new DataSet();
-
+                
                     sqlDataAdapter.Fill(dataSet, TableName);
 
                 dataGridView1.DataSource = dataSet.Tables[TableName];
 
-                    for( int i=0; i<dataGridView1.Rows.Count; i++)
-                    {
-                        DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-                        dataGridView1[IndexCommand[TableIndex], i] = linkCell;
-                    }
-                label1.Text = Convert.ToString(IndexCommand[TableIndex]);
+                saveData();
+                    //for( int i=0; i<dataGridView1.Rows.Count; i++)
+                    //{
+                    //    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+                    //    dataGridView1[TableIndex, i] = linkCell;
+                    //}
+               
 
 
             }
@@ -98,7 +101,7 @@ namespace kursa4
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-                    dataGridView1[IndexCommand[TableIndex], i] = linkCell;
+                    dataGridView1[TableIndex, i] = linkCell;
                 }
                 //
 
@@ -134,7 +137,7 @@ namespace kursa4
 
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridView1[IndexCommand[TableIndex], lastRow] = linkCell;
+                    dataGridView1[TableIndex, lastRow] = linkCell;
 
                     row.Cells["Delete"].Value = "Insert";
                 }
@@ -150,9 +153,9 @@ namespace kursa4
         {
             try
             {
-                if(e.ColumnIndex== IndexCommand[TableIndex])
+                if(e.ColumnIndex== TableIndex)
                 {
-                    string task = dataGridView1.Rows[e.RowIndex].Cells[IndexCommand[TableIndex]].Value.ToString();
+                    string task = dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value.ToString();
                     if(task == "Delete")
                     {
                         DialogResult dr = MessageBox.Show("Удалить запись?", "Удаление", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
@@ -189,7 +192,7 @@ namespace kursa4
 
                         dataGridView1.Rows.RemoveAt(dataGridView1.Rows.Count - 2);
 
-                        dataGridView1.Rows[e.RowIndex].Cells[IndexCommand[TableIndex]].Value = "Delete";
+                        dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value = "Delete";
 
                         sqlDataAdapter.Update(dataSet, TableName);
                         newRowAdding = false;
@@ -205,7 +208,7 @@ namespace kursa4
                         }
 
                         sqlDataAdapter.Update(dataSet, TableName);
-                        dataGridView1.Rows[e.RowIndex].Cells[IndexCommand[TableIndex]].Value = "Delete";
+                        dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value = "Delete";
                     }
                     saveData();
                 }
@@ -247,7 +250,7 @@ namespace kursa4
 
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
 
-                    dataGridView1[3, rowIndex] = linkCell;
+                    dataGridView1[TableIndex, rowIndex] = linkCell;
 
                     editinRow.Cells["Delete"].Value = "Update";
                 }
@@ -282,6 +285,7 @@ namespace kursa4
 
 
         public void ChooseColor(int CurrentIndex)
+
         {
             if (CurrentIndex == IndexPaint)
             {
@@ -292,21 +296,19 @@ namespace kursa4
                 int[] painting1 = { 39, 39, 58 };
                 int[] painting2 = { 51, 51, 72 };
                 PaintElementsDark(painting1,painting2);
-                foreach (Label l in Controls.OfType<Label>())
-                {
-                    l.ForeColor = Color.White;
-                }
+                //foreach (Label l in Controls.OfType<Label>())
+                //{
+                //    l.ForeColor = Color.White;
+                //}
                 
             }
             else if (CurrentIndex == 1)
             {
-                int[] painting1 = { 230, 255, 255 };
-                int[] painting2 = { 210, 245, 245 };
+                int[] painting1 = {255, 230, 255, 255 };
+                int[] painting2 = {255, 210, 245, 245 };
                 PaintElementsDark(painting1, painting2);
             }
-                                          
-
-            if (CurrentIndex == 2)
+            else if (CurrentIndex == 2)
             {
 
             }
@@ -335,9 +337,9 @@ namespace kursa4
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             TableName = "Items";
-            TableIndex = 0;
+            TableIndex = 3;
             LoadData();
-            saveData();
+          
         }
 
        
@@ -367,18 +369,18 @@ namespace kursa4
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             TableName = "Requsts";
-            TableIndex = 1;
+            TableIndex = 4;
             //int tmp = IndexCommand[0];
             //IndexCommand[0]= IndexCommand[1];
             //IndexCommand[1] = tmp;
             LoadData();
-            
-    }
+
+        }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
             TableName = "Test";
-            TableIndex = 2;
+            TableIndex = 6;
             LoadData();
         }
 
