@@ -19,13 +19,18 @@ namespace kursa4
         private void button1_Click(object sender, System.EventArgs e)
         {
             Form1 frm1 = new Form1();
-
+            
             frm1.ChooseColor(SelectedIndex);
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, System.EventArgs e)
         {
             SelectedIndex = comboBox1.SelectedIndex;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, System.EventArgs e)
+        {
+            
         }
     }
 }

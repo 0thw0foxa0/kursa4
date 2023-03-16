@@ -23,14 +23,17 @@ namespace kursa4
         public bool newRowAdding = false;
         public string TableName = "Items";
          int TableIndex = 3;
-        private Form currentChildForm;
+        
         public int IndexPaint = 0;
         public bool IsMain = true;
         Form3 frm3 = new Form3();
         public Form1()
         {
             InitializeComponent();
-             
+            frm3.button1.Click += (sender1, el) =>
+              {
+                  ChooseColor(frm3.comboBox1.SelectedIndex);
+              };
        
     }
         private void Form1_Load(object sender, EventArgs e)
@@ -71,15 +74,17 @@ namespace kursa4
                 
                     sqlDataAdapter.Fill(dataSet, TableName);
 
-                dataGridView1.DataSource = dataSet.Tables[TableName];
+                    dataGridView1.DataSource = dataSet.Tables[TableName];
 
-                saveData();
-                    //for( int i=0; i<dataGridView1.Rows.Count; i++)
-                    //{
-                    //    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-                    //    dataGridView1[TableIndex, i] = linkCell;
-                    //}
-               
+
+                for (int i = 0; i < dataGridView1.Rows.Count; i++)
+                {
+                    DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+                    dataGridView1[TableIndex, i] = linkCell;
+                    dataGridView1.Columns["Command"].DisplayIndex = TableIndex;
+                    dataGridView1.Columns["Id"].Visible = false;
+                }
+
 
 
             }
@@ -200,11 +205,14 @@ namespace kursa4
                     else if (task == "Update")
                     {
                         int rowIndex = e.RowIndex;
-                        if (TableIndex == 0)
+                        if (TableIndex == 3)
                         {
                             dataSet.Tables[TableName].Rows[rowIndex]["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
-
+                        }
+                        else if (TableIndex == 4)
+                        {
+                            dataSet.Tables[TableName].Rows[rowIndex]["Date of Request"] = dataGridView1.Rows[rowIndex].Cells["Date of Request"].Value;
                         }
 
                         sqlDataAdapter.Update(dataSet, TableName);
@@ -224,17 +232,20 @@ namespace kursa4
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             e.Control.KeyPress -= new KeyPressEventHandler(Column_KeyPress);
-
-            if (dataGridView1.CurrentCell.ColumnIndex == 1)
-            {
-                TextBox textBox = e.Control as TextBox;
-                if(textBox != null)
+           
+                if (dataGridView1.CurrentCell.ColumnIndex == 1)
                 {
-                    textBox.KeyPress += new KeyPressEventHandler(Column_KeyPress);
-             
-                }
-            }
+                    TextBox textBox = e.Control as TextBox;
+                    if (textBox != null)
+                    {
+                        textBox.KeyPress += new KeyPressEventHandler(Column_KeyPress);
 
+                    }
+                }
+            
+           
+                
+           
         }
 
 
@@ -271,14 +282,33 @@ namespace kursa4
         }
 
 
-       public void PaintElementsDark(int[] paint1, int[]paint2 )
+       public void PaintElementsDark(int[] paint1, int[]paint2,string color )
         {
 
-            panelLogo.BackColor = Color.FromArgb(paint1[0],paint1[1],paint1[2]);
-            tableLayoutPanel2.BackColor = Color.FromArgb(paint1[0], paint1[1], paint1[2]);
+            panelLogo.BackColor = Color.FromArgb(paint1[0], paint1[1], paint1[2]);
+            tableLayoutPanel2.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+            btnMainPage.ForeColor = Color.FromName(color);
+            btnLogOut.ForeColor = Color.FromName(color);
+            btnQuit.ForeColor = Color.FromName(color);
+            radioButton1.BackColor= Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+            btnSettingsPage.ForeColor = Color.FromName(color);
             dataGridView1.BackgroundColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
             panelMenu.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+            label1.ForeColor = Color.FromName(color);
+            frm3.panel1.BackColor= Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+            frm3.comboBox1.BackColor= Color.FromArgb(paint1[0], paint1[1], paint1[2]);
+            frm3.comboBox2.BackColor= Color.FromArgb(paint1[0], paint1[1], paint1[2]);
 
+           
+                
+            frm3.label1.ForeColor = Color.FromName(color);
+            frm3.label2.ForeColor = Color.FromName(color);
+            frm3.label3.ForeColor = Color.FromName(color);
+
+
+
+            //RB.ForeColor = Color.FromName(color);
+            
         }
 
 
@@ -293,21 +323,23 @@ namespace kursa4
             }
             if (CurrentIndex == 0)
             {
+                string color = "White";
                 int[] painting1 = { 39, 39, 58 };
                 int[] painting2 = { 51, 51, 72 };
-                PaintElementsDark(painting1,painting2);
-                //foreach (Label l in Controls.OfType<Label>())
-                //{
-                //    l.ForeColor = Color.White;
-                //}
-                
+                PaintElementsDark(painting1, painting2, color);
+
+
             }
             else if (CurrentIndex == 1)
             {
-                int[] painting1 = {255, 230, 255, 255 };
-                int[] painting2 = {255, 210, 245, 245 };
-                PaintElementsDark(painting1, painting2);
+                string color = "Black";
+                int[] painting1 = { 230, 255, 255 };
+                int[] painting2 = { 210, 245, 245 };
+                PaintElementsDark(painting1, painting2, color);
+
             }
+            
+            
             else if (CurrentIndex == 2)
             {
 
@@ -410,6 +442,11 @@ namespace kursa4
             
 
             IsMain = true;
+        }
+
+        public void panelLogo_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 

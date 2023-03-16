@@ -70,7 +70,7 @@
             this.panelMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelMenu.Location = new System.Drawing.Point(0, 0);
             this.panelMenu.Name = "panelMenu";
-            this.panelMenu.Size = new System.Drawing.Size(171, 549);
+            this.panelMenu.Size = new System.Drawing.Size(186, 549);
             this.panelMenu.TabIndex = 0;
             // 
             // btnLogOut
@@ -83,9 +83,9 @@
             this.btnLogOut.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLogOut.Location = new System.Drawing.Point(0, 429);
             this.btnLogOut.Name = "btnLogOut";
-            this.btnLogOut.Size = new System.Drawing.Size(171, 60);
+            this.btnLogOut.Size = new System.Drawing.Size(186, 60);
             this.btnLogOut.TabIndex = 4;
-            this.btnLogOut.Text = "Выйти из аккаунта";
+            this.btnLogOut.Text = "Выйти \r\nиз аккаунта";
             this.btnLogOut.UseVisualStyleBackColor = true;
             // 
             // btnQuit
@@ -98,9 +98,9 @@
             this.btnQuit.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnQuit.Location = new System.Drawing.Point(0, 489);
             this.btnQuit.Name = "btnQuit";
-            this.btnQuit.Size = new System.Drawing.Size(171, 60);
+            this.btnQuit.Size = new System.Drawing.Size(186, 60);
             this.btnQuit.TabIndex = 3;
-            this.btnQuit.Text = "Закрыть приложение";
+            this.btnQuit.Text = "Закрыть \r\nприложение";
             this.btnQuit.UseVisualStyleBackColor = true;
             this.btnQuit.Click += new System.EventHandler(this.btnQuit_Click);
             // 
@@ -114,7 +114,7 @@
             this.btnSettingsPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettingsPage.Location = new System.Drawing.Point(0, 204);
             this.btnSettingsPage.Name = "btnSettingsPage";
-            this.btnSettingsPage.Size = new System.Drawing.Size(171, 60);
+            this.btnSettingsPage.Size = new System.Drawing.Size(186, 60);
             this.btnSettingsPage.TabIndex = 2;
             this.btnSettingsPage.Text = "Настройки";
             this.btnSettingsPage.UseVisualStyleBackColor = true;
@@ -130,7 +130,7 @@
             this.btnMainPage.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnMainPage.Location = new System.Drawing.Point(0, 144);
             this.btnMainPage.Name = "btnMainPage";
-            this.btnMainPage.Size = new System.Drawing.Size(171, 60);
+            this.btnMainPage.Size = new System.Drawing.Size(186, 60);
             this.btnMainPage.TabIndex = 1;
             this.btnMainPage.Text = "Главная ";
             this.btnMainPage.UseVisualStyleBackColor = true;
@@ -144,8 +144,9 @@
             this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelLogo.Location = new System.Drawing.Point(0, 0);
             this.panelLogo.Name = "panelLogo";
-            this.panelLogo.Size = new System.Drawing.Size(171, 144);
+            this.panelLogo.Size = new System.Drawing.Size(186, 144);
             this.panelLogo.TabIndex = 1;
+            this.panelLogo.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLogo_Paint);
             // 
             // label1
             // 
@@ -214,7 +215,7 @@
             dataGridViewCellStyle5.SelectionForeColor = System.Drawing.Color.White;
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle5;
             this.dataGridView1.RowTemplate.DefaultCellStyle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(72)))));
-            this.dataGridView1.Size = new System.Drawing.Size(691, 486);
+            this.dataGridView1.Size = new System.Drawing.Size(676, 486);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
@@ -239,17 +240,17 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(691, 63);
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(676, 63);
             this.tableLayoutPanel2.TabIndex = 7;
             // 
             // radioButton4
             // 
             this.radioButton4.AutoSize = true;
             this.radioButton4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButton4.Location = new System.Drawing.Point(519, 3);
+            this.radioButton4.Location = new System.Drawing.Point(510, 3);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(169, 57);
+            this.radioButton4.Size = new System.Drawing.Size(163, 57);
             this.radioButton4.TabIndex = 3;
             this.radioButton4.TabStop = true;
             this.radioButton4.Text = "Таблица 4";
@@ -259,9 +260,9 @@
             // 
             this.radioButton3.AutoSize = true;
             this.radioButton3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButton3.Location = new System.Drawing.Point(347, 3);
+            this.radioButton3.Location = new System.Drawing.Point(341, 3);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(166, 57);
+            this.radioButton3.Size = new System.Drawing.Size(163, 57);
             this.radioButton3.TabIndex = 2;
             this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Таблица 3 мб";
@@ -272,9 +273,9 @@
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.radioButton2.Location = new System.Drawing.Point(175, 3);
+            this.radioButton2.Location = new System.Drawing.Point(172, 3);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(166, 57);
+            this.radioButton2.Size = new System.Drawing.Size(163, 57);
             this.radioButton2.TabIndex = 1;
             this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Таблица 2";
@@ -288,7 +289,7 @@
             this.radioButton1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.radioButton1.Location = new System.Drawing.Point(3, 3);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(166, 57);
+            this.radioButton1.Size = new System.Drawing.Size(163, 57);
             this.radioButton1.TabIndex = 0;
             this.radioButton1.TabStop = true;
             this.radioButton1.Text = "Таблица 1";
@@ -302,7 +303,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(691, 63);
+            this.panel3.Size = new System.Drawing.Size(676, 63);
             this.panel3.TabIndex = 8;
             // 
             // panel2
@@ -310,9 +311,9 @@
             this.panel2.Controls.Add(this.dataGridView1);
             this.panel2.Controls.Add(this.panel3);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(171, 0);
+            this.panel2.Location = new System.Drawing.Point(186, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(691, 549);
+            this.panel2.Size = new System.Drawing.Size(676, 549);
             this.panel2.TabIndex = 8;
             // 
             // Form1
