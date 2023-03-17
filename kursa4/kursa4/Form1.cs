@@ -83,6 +83,8 @@ namespace kursa4
                     dataGridView1[TableIndex, i] = linkCell;
                     dataGridView1.Columns["Command"].DisplayIndex = TableIndex;
                     dataGridView1.Columns["Id"].Visible = false;
+                    dataGridView1.Rows[i].Cells[TableIndex].Style.ForeColor = Color.White;
+
                 }
 
 
@@ -292,9 +294,10 @@ namespace kursa4
 
        public void PaintElementsDark(int[] paint1, int[]paint2,string color )
         {
-
+            
             panelLogo.BackColor = Color.FromArgb(paint1[0], paint1[1], paint1[2]);
             tableLayoutPanel2.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
+            tableLayoutPanel2.ForeColor = Color.FromName(color);
             btnMainPage.ForeColor = Color.FromName(color);
             btnLogOut.ForeColor = Color.FromName(color);
             btnQuit.ForeColor = Color.FromName(color);
@@ -303,12 +306,13 @@ namespace kursa4
             dataGridView1.BackgroundColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
             panelMenu.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
             label1.ForeColor = Color.FromName(color);
+
+
             frm3.panel1.BackColor= Color.FromArgb(paint2[0], paint2[1], paint2[2]);
             frm3.comboBox1.BackColor= Color.FromArgb(paint1[0], paint1[1], paint1[2]);
             frm3.comboBox2.BackColor= Color.FromArgb(paint1[0], paint1[1], paint1[2]);
-
-           
-                
+            frm3.comboBox1.ForeColor = Color.FromName(color);
+            frm3.comboBox2.ForeColor = Color.FromName(color);
             frm3.label1.ForeColor = Color.FromName(color);
             frm3.label2.ForeColor = Color.FromName(color);
             frm3.label3.ForeColor = Color.FromName(color);
