@@ -144,7 +144,7 @@ namespace kursa4
 
                     dataGridView1[TableIndex, lastRow] = linkCell;
 
-                    row.Cells["Delete"].Value = "Insert";
+                    row.Cells["Command"].Value = "Insert";
                 }
             }
             catch (Exception ex)
@@ -184,11 +184,17 @@ namespace kursa4
                         int rowIndex = dataGridView1.Rows.Count - 2;
 
                         DataRow row = dataSet.Tables[TableName].NewRow();
-                        if (TableIndex == 0)
+                        if (TableIndex == 3)
                         {
                             row["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
                             row["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
 
+                        }
+                        if (TableIndex == 4)
+                        {
+                            row["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
+                            row["Date"] = dataGridView1.Rows[rowIndex].Cells["Date"].Value;
+                            row["Aitem"] = dataGridView1.Rows[rowIndex].Cells["Aitem"].Value;
                         }
 
                         dataSet.Tables[TableName].Rows.Add(row);
@@ -212,7 +218,9 @@ namespace kursa4
                         }
                         else if (TableIndex == 4)
                         {
-                            dataSet.Tables[TableName].Rows[rowIndex]["Date of Request"] = dataGridView1.Rows[rowIndex].Cells["Date of Request"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Date"] = dataGridView1.Rows[rowIndex].Cells["Date"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Aitem"] = dataGridView1.Rows[rowIndex].Cells["Aitem"].Value;
                         }
 
                         sqlDataAdapter.Update(dataSet, TableName);
@@ -263,7 +271,7 @@ namespace kursa4
 
                     dataGridView1[TableIndex, rowIndex] = linkCell;
 
-                    editinRow.Cells["Delete"].Value = "Update";
+                    editinRow.Cells["Command"].Value = "Update";
                 }
             }
 
