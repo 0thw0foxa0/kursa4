@@ -22,7 +22,7 @@ namespace kursa4
         private DataSet dataSet = null;
         public bool newRowAdding = false;
         public string TableName = "Items";
-         int TableIndex = 3;
+         int TableIndex = 8;
         
         public int IndexPaint = 0;
         public bool IsMain = true;
@@ -74,16 +74,25 @@ namespace kursa4
                 
                     sqlDataAdapter.Fill(dataSet, TableName);
 
-                    dataGridView1.DataSource = dataSet.Tables[TableName];
+
+                dataGridView1.DataSource = dataSet.Tables[TableName];
+
+                
+                //string[] countrys = new string[] { "США", "ОАЭ", "ЮАР" };
+                //    (dataGridView1.Columns[2] as DataGridViewComboBoxColumn).DataSource = countrys;
+                
+                
 
 
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
+                    
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
                     dataGridView1[TableIndex, i] = linkCell;
                     dataGridView1.Columns["Command"].DisplayIndex = TableIndex;
                     dataGridView1.Columns["Id"].Visible = false;
                     dataGridView1.Rows[i].Cells[TableIndex].Style.ForeColor = Color.White;
+                    
 
                 }
 
@@ -156,11 +165,12 @@ namespace kursa4
         }
 
 
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                if(e.ColumnIndex== TableIndex)
+                if (e.ColumnIndex== TableIndex)
                 {
                     string task = dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value.ToString();
                     if(task == "Delete")
@@ -186,10 +196,20 @@ namespace kursa4
                         int rowIndex = dataGridView1.Rows.Count - 2;
 
                         DataRow row = dataSet.Tables[TableName].NewRow();
-                        if (TableIndex == 3)
+                        if(TableIndex== 8)
                         {
                             row["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
                             row["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
+                            row["Cost"]= dataGridView1.Rows[rowIndex].Cells["Cost"].Value;
+                            row["Size"]= dataGridView1.Rows[rowIndex].Cells["Size"].Value;
+                            row["Weight"]= dataGridView1.Rows[rowIndex].Cells["Weight"].Value;
+                            row["Category Id"]= dataGridView1.Rows[rowIndex].Cells["Category Id"].Value;
+                            row["Storage Id"]= dataGridView1.Rows[rowIndex].Cells["Storage Id"].Value;
+                        }
+                        if (TableIndex == 3)
+                        {
+                            row["Item Id"] = dataGridView1.Rows[rowIndex].Cells["Item Id"].Value;
+                            row["type Operation"] = dataGridView1.Rows[rowIndex].Cells["type Operation"].Value;
 
                         }
                         if (TableIndex == 4)
@@ -242,8 +262,11 @@ namespace kursa4
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             e.Control.KeyPress -= new KeyPressEventHandler(Column_KeyPress);
-           
-                if (dataGridView1.CurrentCell.ColumnIndex == 1)
+            if (TableIndex == 7)
+            {
+                if (dataGridView1.CurrentCell.ColumnIndex == 1 
+                    || dataGridView1.CurrentCell.ColumnIndex == 3 
+                    || dataGridView1.CurrentCell.ColumnIndex == 4)
                 {
                     TextBox textBox = e.Control as TextBox;
                     if (textBox != null)
@@ -252,7 +275,8 @@ namespace kursa4
 
                     }
                 }
-            
+            }
+                
            
                 
            
@@ -285,7 +309,7 @@ namespace kursa4
 
         private void Column_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if(!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            if((!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar)) )
             {
                 e.Handled = true;
             }
@@ -354,7 +378,18 @@ namespace kursa4
             
             else if (CurrentIndex == 2)
             {
+                Random rnd = new Random();
 
+                int tmp1 = rnd.Next(0, 255);
+                int tmp2 = rnd.Next(0, 255);
+                int tmp3 = rnd.Next(0, 255);
+                int[] painting1 = { tmp1, tmp2, tmp3 };
+                 tmp1 = rnd.Next(0, 255);
+                 tmp2 = rnd.Next(0, 255);
+                 tmp3 = rnd.Next(0, 255);
+                int[] painting2 = { tmp1, tmp2, tmp3 };
+                string color = "Grey";
+                PaintElementsDark(painting1, painting2,color);
             }
             IndexPaint = CurrentIndex;
         }
@@ -381,7 +416,7 @@ namespace kursa4
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             TableName = "Items";
-            TableIndex = 3;
+            TableIndex = 8;
             LoadData();
           
         }
@@ -412,8 +447,8 @@ namespace kursa4
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            TableName = "Requsts";
-            TableIndex = 4;
+            TableName = "Operation";
+            TableIndex = 3;
             //int tmp = IndexCommand[0];
             //IndexCommand[0]= IndexCommand[1];
             //IndexCommand[1] = tmp;
@@ -423,8 +458,15 @@ namespace kursa4
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
         {
-            TableName = "Test";
-            TableIndex = 6;
+            TableName = "Storage";
+            TableIndex = 2;
+            LoadData();
+        }
+        
+        private void radioButton4_CheckedChanged_1(object sender, EventArgs e)
+        {
+            TableName = "Category";
+            TableIndex = 2;
             LoadData();
         }
 
@@ -460,6 +502,8 @@ namespace kursa4
         {
 
         }
+
+        
     }
 
    
