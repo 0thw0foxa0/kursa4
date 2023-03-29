@@ -11,3 +11,4 @@ C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.pdb
 C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\Database1.mdf
 C:\Users\vladb\source\repos\kursa4\kursa4\bin\Debug\Database1_log.ldf
 C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.Form3.resources
+C:\Users\vladb\source\repos\kursa4\kursa4\obj\Debug\kursa4.Auth.resources
