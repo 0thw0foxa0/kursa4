@@ -59,10 +59,17 @@ namespace kursa4
                     dataSet = null;
                 }
                 
-                
+                if (TableIndex == 8)
+                {
+                    sqlDataAdapter = new SqlDataAdapter("SELECT *, [Category],   'Delete' AS [Command] FROM " + TableName+ ",Category" , sqlConnection);
+                }
+                else
+                {
                     sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
 
-                    sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
+                }
+
+                sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
 
                     sqlBuilder.GetInsertCommand();
 
