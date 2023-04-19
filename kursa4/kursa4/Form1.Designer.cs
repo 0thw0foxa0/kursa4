@@ -28,12 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panelMenu = new System.Windows.Forms.Panel();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.btnQuit = new System.Windows.Forms.Button();
@@ -50,6 +50,7 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btnLogTable = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -62,6 +63,7 @@
             // panelMenu
             // 
             this.panelMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(72)))));
+            this.panelMenu.Controls.Add(this.btnLogTable);
             this.panelMenu.Controls.Add(this.btnLogOut);
             this.panelMenu.Controls.Add(this.btnQuit);
             this.panelMenu.Controls.Add(this.btnSettingsPage);
@@ -319,6 +321,22 @@
             this.panel2.Size = new System.Drawing.Size(676, 549);
             this.panel2.TabIndex = 8;
             // 
+            // btnLogTable
+            // 
+            this.btnLogTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnLogTable.FlatAppearance.BorderSize = 0;
+            this.btnLogTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogTable.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnLogTable.Image = ((System.Drawing.Image)(resources.GetObject("btnLogTable.Image")));
+            this.btnLogTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLogTable.Location = new System.Drawing.Point(0, 264);
+            this.btnLogTable.Name = "btnLogTable";
+            this.btnLogTable.Size = new System.Drawing.Size(186, 60);
+            this.btnLogTable.TabIndex = 5;
+            this.btnLogTable.Text = "Таблица\r\n пользователей";
+            this.btnLogTable.UseVisualStyleBackColor = true;
+            this.btnLogTable.Click += new System.EventHandler(this.btnLogTable_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -361,6 +379,7 @@
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnLogTable;
     }
 }
 
