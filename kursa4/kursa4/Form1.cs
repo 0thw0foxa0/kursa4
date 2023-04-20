@@ -15,11 +15,11 @@ namespace kursa4
     
     public partial class Form1 : Form
     {
-
+        
         private SqlConnection sqlConnection = null;
         private SqlCommandBuilder sqlBuilder = null;
         private SqlDataAdapter sqlDataAdapter = null;
-        private DataSet dataSet = null;
+        public DataSet dataSet = null;
         private DataSet dataSettmp = null;
         public bool isAdmin = false;
         public bool newRowAdding = false;
@@ -38,10 +38,12 @@ namespace kursa4
               {
                   ChooseColor(frm3.comboBox1.SelectedIndex);
               };
-       
+            
+            
     }
         private void Form1_Load(object sender, EventArgs e)
         {
+           
             sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladb\source\repos\kursa4\kursa4\Database1.mdf;Integrated Security=True");
             sqlConnection.Open();    
             radioButton1.Checked = true;
@@ -62,7 +64,7 @@ namespace kursa4
 
         private void LoadData()
         {
-
+            
             try
             {
                 if (sqlBuilder != null){
@@ -81,6 +83,8 @@ namespace kursa4
                     dataGridView1.DataSource = dataSet.Tables[TableName];
                     dataGridView1.Columns["Command"].DisplayIndex = TableIndex;
                     dataGridView1.Columns["Id category"].Visible = false;
+                    dataGridView1.Columns["Id"].ReadOnly = true;
+                    dataGridView1.Columns["category"].ReadOnly = true;
                 }
                 else if (TableName == "Operation")
                 {
@@ -101,26 +105,17 @@ namespace kursa4
                 }
                 
 
-
-
-
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
-
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
                     dataGridView1[TableIndex, i] = linkCell;
                     dataGridView1.Rows[i].Cells[TableIndex].Style.ForeColor = Color.White;
-
-
                 }
-
+               
 
                 PaintElementsDark(colornow1, colornow2, colortextnow);
-                if (TableName == "Items")
-                {
-                    dataGridView1.Columns["Id"].ReadOnly = true;
-                    dataGridView1.Columns["category"].ReadOnly = true;
-                }
+
+             
             }
 
             catch (Exception ex)
@@ -158,7 +153,7 @@ namespace kursa4
             TableName = "Items";
             TableIndex = 9;
             LoadData();
-            
+            this.Text = "Таблица Товары";
 
         }
 
@@ -167,7 +162,7 @@ namespace kursa4
             TableName = "Operation";
             TableIndex = 5;
             LoadData();
-            
+            this.Text = "Таблица Операции";
 
         }
 
@@ -176,6 +171,7 @@ namespace kursa4
             TableName = "[Types Operation]";
             TableIndex = 2;
             LoadData();
+            this.Text = "Таблица типы операций";
         }
 
         private void radioButton4_CheckedChanged_1(object sender, EventArgs e)
@@ -183,6 +179,7 @@ namespace kursa4
             TableName = "Category";
             TableIndex = 2;
             LoadData();
+            this.Text = "Таблица Категории";
         }
 
 
@@ -217,8 +214,31 @@ namespace kursa4
 
         private void btnLogTable_Click(object sender, EventArgs e)
         {
-            Form2 frm2 = new Form2();
-            frm2.Show();
+            radioButton1.Checked = false;
+            radioButton2.Checked = false;
+            radioButton3.Checked = false;
+            radioButton4.Checked = false;
+            if (IsMain)
+            {
+                TableName = "Users";
+                TableIndex = 4;
+                LoadData();
+                this.Text = "Таблица Пользователи";
+            }
+            else
+            {
+                panel3.Dock = DockStyle.Top;
+                panel3.Controls.Add(tableLayoutPanel2);
+                panel2.Controls.Remove(frm3);
+                IsMain = true;
+                TableName = "Users";
+                TableIndex = 4;
+                LoadData();
+                this.Text = "Таблица Пользователи";
+                
+            }
+            
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -346,21 +366,6 @@ namespace kursa4
                         }
                         else if (TableName == "Items")
                         {
-                            //dataSet = new DataSet();
-                            //sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
-                            //sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
-
-
-                            //sqlDataAdapter.Fill(dataSet, TableName);
-
-
-                            //sqlBuilder.GetInsertCommand();
-
-                            //sqlBuilder.GetUpdateCommand();
-
-                            //sqlBuilder.GetDeleteCommand();
-
-
                             dataSet.Tables[TableName].Rows[rowIndex]["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["Cost"] = dataGridView1.Rows[rowIndex].Cells["Cost"].Value;
@@ -375,6 +380,12 @@ namespace kursa4
                         {
                             dataSet.Tables[TableName].Rows[rowIndex]["Item Id"] = dataGridView1.Rows[rowIndex].Cells["Item Id"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["Type operation"] = dataGridView1.Rows[rowIndex].Cells["Type operation"].Value;
+                        }
+                        else if (TableName == "Users")
+                        {
+                            dataSet.Tables[TableName].Rows[rowIndex]["Login"] = dataGridView1.Rows[rowIndex].Cells["Login"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Password"] = dataGridView1.Rows[rowIndex].Cells["Password"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Admin"] = dataGridView1.Rows[rowIndex].Cells["Admin"].Value;
                         }
                             //dataSet = new DataSet();
                             //sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
@@ -578,6 +589,7 @@ namespace kursa4
             frm3.BringToFront();
             frm3.Show();
             IsMain = false;
+            this.Text = "Настройки";
         }
 
         private void btnMainPage_Click(object sender, EventArgs e)
@@ -585,9 +597,37 @@ namespace kursa4
             panel3.Dock = DockStyle.Top;
             panel3.Controls.Add(tableLayoutPanel2);
             panel2.Controls.Remove(frm3);
-            
-
             IsMain = true;
+            switch (TableName)
+            {
+                case "Users":
+                    this.Text = "Таблица Пользователи";
+                break;
+                case "Operation":
+                    this.Text = "Таблица Операции";
+                break;
+                case "[Type Operation]":
+                    this.Text = "Таблица типы операций";
+                break;
+                case "Category":
+                    this.Text = "Таблица категории";
+                break;
+                case "Items":
+                    this.Text = "Таблица товары";
+                break;
+            }
+            
+        }
+        public void checkAdmin()
+        {
+            if (label2.Text.ToString() == "Admin")
+            {
+                btnLogTable.Visible = true;
+            }
+            else if (label2.Text.ToString() == "User")
+            {
+                btnLogTable.Visible = false;
+            }
         }
 
         public void panelLogo_Paint(object sender, PaintEventArgs e)
@@ -609,6 +649,21 @@ namespace kursa4
         private void btnSettingsPage_Click(object sender, EventArgs e)
         { }
 
-        
+        public void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnLogOut_Click(object sender, EventArgs e)
+        {
+            Form2 frm2 = new Form2();
+            this.Hide();
+            frm2.Show();
+        }
     }
 }

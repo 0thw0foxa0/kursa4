@@ -28,18 +28,20 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.panelMenu = new System.Windows.Forms.Panel();
+            this.btnLogTable = new System.Windows.Forms.Button();
             this.btnLogOut = new System.Windows.Forms.Button();
             this.btnQuit = new System.Windows.Forms.Button();
             this.btnSettingsPage = new System.Windows.Forms.Button();
             this.btnMainPage = new System.Windows.Forms.Button();
             this.panelLogo = new System.Windows.Forms.Panel();
+            this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
@@ -50,7 +52,6 @@
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.btnLogTable = new System.Windows.Forms.Button();
             this.panelMenu.SuspendLayout();
             this.panelLogo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -75,6 +76,23 @@
             this.panelMenu.Size = new System.Drawing.Size(186, 549);
             this.panelMenu.TabIndex = 0;
             // 
+            // btnLogTable
+            // 
+            this.btnLogTable.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnLogTable.FlatAppearance.BorderSize = 0;
+            this.btnLogTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogTable.ForeColor = System.Drawing.SystemColors.InactiveCaption;
+            this.btnLogTable.Image = ((System.Drawing.Image)(resources.GetObject("btnLogTable.Image")));
+            this.btnLogTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLogTable.Location = new System.Drawing.Point(0, 264);
+            this.btnLogTable.Name = "btnLogTable";
+            this.btnLogTable.Size = new System.Drawing.Size(186, 60);
+            this.btnLogTable.TabIndex = 5;
+            this.btnLogTable.Text = "Таблица\r\n пользователей";
+            this.btnLogTable.UseVisualStyleBackColor = true;
+            this.btnLogTable.Visible = false;
+            this.btnLogTable.Click += new System.EventHandler(this.btnLogTable_Click);
+            // 
             // btnLogOut
             // 
             this.btnLogOut.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -89,6 +107,7 @@
             this.btnLogOut.TabIndex = 4;
             this.btnLogOut.Text = "Выйти \r\nиз аккаунта";
             this.btnLogOut.UseVisualStyleBackColor = true;
+            this.btnLogOut.Click += new System.EventHandler(this.btnLogOut_Click);
             // 
             // btnQuit
             // 
@@ -141,6 +160,7 @@
             // panelLogo
             // 
             this.panelLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(58)))));
+            this.panelLogo.Controls.Add(this.label2);
             this.panelLogo.Controls.Add(this.label1);
             this.panelLogo.Controls.Add(this.pictureBox1);
             this.panelLogo.Dock = System.Windows.Forms.DockStyle.Top;
@@ -150,20 +170,31 @@
             this.panelLogo.TabIndex = 1;
             this.panelLogo.Paint += new System.Windows.Forms.PaintEventHandler(this.panelLogo_Paint);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label2.Location = new System.Drawing.Point(37, 128);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Имя пользователя";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label1.Location = new System.Drawing.Point(37, 116);
+            this.label1.Location = new System.Drawing.Point(37, 104);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(103, 13);
             this.label1.TabIndex = 1;
             this.label1.Text = "Имя пользователя";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(55, 38);
+            this.pictureBox1.Location = new System.Drawing.Point(54, 29);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(63, 63);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -321,22 +352,6 @@
             this.panel2.Size = new System.Drawing.Size(676, 549);
             this.panel2.TabIndex = 8;
             // 
-            // btnLogTable
-            // 
-            this.btnLogTable.Dock = System.Windows.Forms.DockStyle.Top;
-            this.btnLogTable.FlatAppearance.BorderSize = 0;
-            this.btnLogTable.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogTable.ForeColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnLogTable.Image = ((System.Drawing.Image)(resources.GetObject("btnLogTable.Image")));
-            this.btnLogTable.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnLogTable.Location = new System.Drawing.Point(0, 264);
-            this.btnLogTable.Name = "btnLogTable";
-            this.btnLogTable.Size = new System.Drawing.Size(186, 60);
-            this.btnLogTable.TabIndex = 5;
-            this.btnLogTable.Text = "Таблица\r\n пользователей";
-            this.btnLogTable.UseVisualStyleBackColor = true;
-            this.btnLogTable.Click += new System.EventHandler(this.btnLogTable_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -344,9 +359,11 @@
             this.ClientSize = new System.Drawing.Size(862, 549);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panelMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(878, 588);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Главная";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.panelMenu.ResumeLayout(false);
             this.panelLogo.ResumeLayout(false);
@@ -369,9 +386,9 @@
         private System.Windows.Forms.Button btnMainPage;
         private System.Windows.Forms.Panel panelLogo;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSettingsPage;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        public System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.RadioButton radioButton3;
@@ -380,6 +397,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Button btnLogTable;
+        public System.Windows.Forms.Label label2;
     }
 }
 
