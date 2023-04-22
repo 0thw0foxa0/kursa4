@@ -18,5 +18,14 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source=DESKTOP-CRIO13I\SQLEXPRESS;Initial Catalog=Склад;Integrated Security=True</Value>
     </Setting>
+    <Setting Name="color1" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">39, 39, 58</Value>
+    </Setting>
+    <Setting Name="color2" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">51, 51, 72</Value>
+    </Setting>
+    <Setting Name="textcolor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

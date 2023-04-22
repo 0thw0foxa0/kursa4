@@ -108,5 +108,48 @@ namespace kursa4
             button2.Enabled = true;
             button2.FlatStyle = FlatStyle.Flat ;
         }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            this.BackColor = Properties.Settings.Default.color2;
+            button1.BackColor = Properties.Settings.Default.color1;
+            button2.BackColor = Properties.Settings.Default.color2;
+            panel1.BackColor = Properties.Settings.Default.color1;
+            button3.BackColor = Properties.Settings.Default.color1;
+            button1.ForeColor = Properties.Settings.Default.textcolor;
+            button2.ForeColor = Properties.Settings.Default.textcolor;
+            button3.ForeColor = Properties.Settings.Default.textcolor;
+            label1.ForeColor = Properties.Settings.Default.textcolor;
+            label2.ForeColor = Properties.Settings.Default.textcolor;
+            string tmp = (Properties.Settings.Default.textcolor).ToString();
+            switch ((Properties.Settings.Default.textcolor).ToString())
+            {
+                case "Color [White]":
+                    textBox1.ForeColor = Color.FromName("Black");
+                    textBox1.BackColor = Properties.Settings.Default.textcolor;
+                    textBox2.ForeColor = Color.FromName("Black");
+                    textBox2.BackColor = Properties.Settings.Default.textcolor;
+
+                    break;
+
+                case "Color [Black]":
+                    textBox1.ForeColor = Properties.Settings.Default.textcolor;
+                    textBox1.BackColor = Color.FromName("White");
+                    textBox2.ForeColor = Properties.Settings.Default.textcolor;
+                    textBox2.BackColor = Color.FromName("White");
+
+
+                    break;
+
+                default:
+                    textBox1.ForeColor = Color.FromName("Grey");
+                    textBox1.BackColor = Color.FromName("White");
+                    textBox2.ForeColor = Color.FromName("Grey");
+                    textBox2.BackColor = Color.FromName("White");
+                    break;
+            }
+
+
+        }
     }
 }

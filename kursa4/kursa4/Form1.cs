@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace kursa4
 {
-    
+
     public partial class Form1 : Form
     {
         
@@ -25,9 +25,10 @@ namespace kursa4
         public bool newRowAdding = false;
         public string TableName = "Items";
         int TableIndex = 9;
-        int[] colornow1= {39,39,58 };
-        int[] colornow2= {51,51,72 };
-        string colortextnow="White";
+        Color color1 = Properties.Settings.Default.color1;
+        Color color2 = Properties.Settings.Default.color2;
+        Color textColor = Properties.Settings.Default.textcolor;
+
         public int IndexPaint = 0;
         public bool IsMain = true;
         Form3 frm3 = new Form3();
@@ -38,12 +39,18 @@ namespace kursa4
               {
                   ChooseColor(frm3.comboBox1.SelectedIndex);
               };
-            
-            
-    }
+
+
+        }
+        
         private void Form1_Load(object sender, EventArgs e)
         {
            
+        
+
+
+           
+
             sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladb\source\repos\kursa4\kursa4\Database1.mdf;Integrated Security=True");
             sqlConnection.Open();    
             radioButton1.Checked = true;
@@ -113,7 +120,7 @@ namespace kursa4
                 }
                
 
-                PaintElementsDark(colornow1, colornow2, colortextnow);
+                PaintElementsDark(color1, color2, textColor);
 
              
             }
@@ -123,32 +130,35 @@ namespace kursa4
                 MessageBox.Show(ex.Message,"Что-то пошло не так", MessageBoxButtons.OK);
             }
 }
+        public string[] convert (string myString)
+         {
+            return new[] { myString };
+        }
 
+    //public void saveData()
+    //{
+    //    try
+    //    {
+    //        dataSet.Tables[TableName].Clear();
+    //        dataSettmp.Tables[TableName].Clear();
+    //        sqlDataAdapter.Fill(dataSettmp, TableName);
+    //        dataGridView1.DataSource = dataSettmp.Tables[TableName];
+    //        for (int i = 0; i < dataGridView1.Rows.Count; i++)
+    //        {
+    //            DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
+    //            dataGridView1[TableIndex, i] = linkCell;
+    //        }
 
-        //public void saveData()
-        //{
-        //    try
-        //    {
-        //        dataSet.Tables[TableName].Clear();
-        //        dataSettmp.Tables[TableName].Clear();
-        //        sqlDataAdapter.Fill(dataSettmp, TableName);
-        //        dataGridView1.DataSource = dataSettmp.Tables[TableName];
-        //        for (int i = 0; i < dataGridView1.Rows.Count; i++)
-        //        {
-        //            DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-        //            dataGridView1[TableIndex, i] = linkCell;
-        //        }
+    //    }
 
-        //    }
+    //    catch (Exception ex)
+    //    {
+    //        MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+    //    }
 
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
-        //    }
-           
-        //}
+    //}
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+    private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
             TableName = "Items";
             TableIndex = 9;
@@ -476,45 +486,54 @@ namespace kursa4
         }
 
 
-       public void PaintElementsDark(int[] paint1, int[]paint2,string color )
+       public void PaintElementsDark(Color paint1, Color paint2,Color color )
         {
+             
             for (int row = 0; row < dataGridView1.Rows.Count; row++)
             {
                 // Iterate over the total number of Columns
                 for (int col = 0; col <dataGridView1.ColumnCount; col++)
                 {
                     // Paint cell location (column, row)
-                    dataGridView1[col, row].Style.BackColor = Color.FromArgb(paint1[0],paint1[1],paint1[2]);
-                    dataGridView1[col, row].Style.ForeColor = Color.FromName(color);
+                    dataGridView1[col, row].Style.BackColor = paint1;
+                    dataGridView1[col, row].Style.ForeColor = color;
                 }
             }
-       
-        
-            panelLogo.BackColor = Color.FromArgb(paint1[0], paint1[1], paint1[2]);
-            tableLayoutPanel2.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
-            tableLayoutPanel2.ForeColor = Color.FromName(color);
-            btnMainPage.ForeColor = Color.FromName(color);
-            btnLogOut.ForeColor = Color.FromName(color);
-            btnQuit.ForeColor = Color.FromName(color);
-            radioButton1.BackColor= Color.FromArgb(paint2[0], paint2[1], paint2[2]);
-            btnSettingsPage.ForeColor = Color.FromName(color);
-            dataGridView1.BackgroundColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
-            panelMenu.BackColor = Color.FromArgb(paint2[0], paint2[1], paint2[2]);
-            label1.ForeColor = Color.FromName(color);
 
 
-            frm3.panel1.BackColor= Color.FromArgb(paint2[0], paint2[1], paint2[2]);
-            frm3.comboBox1.BackColor= Color.FromArgb(paint1[0], paint1[1], paint1[2]);
-            frm3.comboBox2.BackColor= Color.FromArgb(paint1[0], paint1[1], paint1[2]);
-            frm3.comboBox1.ForeColor = Color.FromName(color);
-            frm3.comboBox2.ForeColor = Color.FromName(color);
-            frm3.label1.ForeColor = Color.FromName(color);
-            frm3.label2.ForeColor = Color.FromName(color);
-            frm3.label3.ForeColor = Color.FromName(color);
+            panelLogo.BackColor = paint1;
+            tableLayoutPanel2.BackColor = paint2;
+            tableLayoutPanel2.ForeColor = color;
+            btnMainPage.ForeColor = color;
+            btnLogOut.ForeColor = color;
+            btnLogTable.ForeColor = color;
+            btnQuit.ForeColor = color;
+            radioButton1.BackColor= paint2;
+            btnSettingsPage.ForeColor = color;
+            dataGridView1.BackgroundColor = paint2;
+            panelMenu.BackColor = paint2;
+            label1.ForeColor = color;
+            label2.ForeColor = color;
 
-            colornow1 = paint1;
-            colornow2 = paint2;
-            colortextnow = color;
+
+            frm3.panel1.BackColor = paint2;
+            frm3.comboBox1.BackColor = paint1;
+            frm3.comboBox2.BackColor = paint1;
+            frm3.comboBox1.ForeColor = color;
+            frm3.comboBox2.ForeColor = color;
+            frm3.label1.ForeColor = color;
+            frm3.label2.ForeColor = color;
+            frm3.label3.ForeColor = color;
+
+            
+
+            color1 = Properties.Settings.Default.color1 =paint1;
+            Properties.Settings.Default.color1 = paint1;
+            color2 = Properties.Settings.Default.color2=paint2;
+            Properties.Settings.Default.color2 = paint2;
+            textColor = Properties.Settings.Default.textcolor=color;
+            Properties.Settings.Default.textcolor = color;
+            Properties.Settings.Default.Save();
         }
 
 
@@ -523,24 +542,20 @@ namespace kursa4
         public void ChooseColor(int CurrentIndex)
 
         {
-            if (CurrentIndex == IndexPaint)
-            {
-                return;
-            }
             if (CurrentIndex == 0)
             {
-                string color = "White";
-                int[] painting1 = { 39, 39, 58 };
-                int[] painting2 = { 51, 51, 72 };
+                Color color = Color.FromName("White");
+                Color painting1 = Color.FromArgb( 39, 39, 58 );
+                Color painting2 = Color.FromArgb(51, 51, 72);
                 PaintElementsDark(painting1, painting2, color);
 
 
             }
             else if (CurrentIndex == 1)
             {
-                string color = "Black";
-                int[] painting1 = { 230, 255, 255 };
-                int[] painting2 = { 210, 245, 245 };
+                Color color = Color.FromName("Black");
+                Color painting1 = Color.FromArgb(230, 255, 255 );
+                Color painting2 = Color.FromArgb(210, 245, 245 );
                 PaintElementsDark(painting1, painting2, color);
 
             }
@@ -553,12 +568,12 @@ namespace kursa4
                 int tmp1 = rnd.Next(0, 255);
                 int tmp2 = rnd.Next(0, 255);
                 int tmp3 = rnd.Next(0, 255);
-                int[] painting1 = { tmp1, tmp2, tmp3 };
+                Color painting1 = Color.FromArgb( tmp1, tmp2, tmp3 );
                  tmp1 = rnd.Next(0, 255);
                  tmp2 = rnd.Next(0, 255);
                  tmp3 = rnd.Next(0, 255);
-                int[] painting2 = { tmp1, tmp2, tmp3 };
-                string color = "Grey";
+                Color painting2 = Color.FromArgb( tmp1, tmp2, tmp3 );
+                Color color = Color.FromName("Grey");
                 PaintElementsDark(painting1, painting2,color);
             }
             IndexPaint = CurrentIndex;
@@ -664,6 +679,16 @@ namespace kursa4
             Form2 frm2 = new Form2();
             this.Hide();
             frm2.Show();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+
+            Properties.Settings.Default.color1 = color1;
+            Properties.Settings.Default.color2 = color1;
+            Properties.Settings.Default.textcolor = textColor;
+
+
         }
     }
 }

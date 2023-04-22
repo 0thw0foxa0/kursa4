@@ -13,7 +13,7 @@ namespace kursa4.Properties {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
         
@@ -42,6 +42,42 @@ namespace kursa4.Properties {
         public string СкладConnectionString {
             get {
                 return ((string)(this["СкладConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("39, 39, 58")]
+        public global::System.Drawing.Color color1 {
+            get {
+                return ((global::System.Drawing.Color)(this["color1"]));
+            }
+            set {
+                this["color1"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("51, 51, 72")]
+        public global::System.Drawing.Color color2 {
+            get {
+                return ((global::System.Drawing.Color)(this["color2"]));
+            }
+            set {
+                this["color2"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color textcolor {
+            get {
+                return ((global::System.Drawing.Color)(this["textcolor"]));
+            }
+            set {
+                this["textcolor"] = value;
             }
         }
     }
