@@ -66,7 +66,7 @@ namespace kursa4
 
                     frm1.checkAdmin();
 
-
+                    this.Hide();
                     return;
                 }
                 

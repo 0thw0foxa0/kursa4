@@ -8,14 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
-
 namespace kursa4
 {
-
     public partial class Form1 : Form
     {
-        
+        private DateTimePicker date;
         private SqlConnection sqlConnection = null;
         private SqlCommandBuilder sqlBuilder = null;
         private SqlDataAdapter sqlDataAdapter = null;
@@ -28,7 +25,6 @@ namespace kursa4
         Color color1 = Properties.Settings.Default.color1;
         Color color2 = Properties.Settings.Default.color2;
         Color textColor = Properties.Settings.Default.textcolor;
-
         public int IndexPaint = 0;
         public bool IsMain = true;
         Form3 frm3 = new Form3();
@@ -39,18 +35,10 @@ namespace kursa4
               {
                   ChooseColor(frm3.comboBox1.SelectedIndex);
               };
-
-
         }
         
         private void Form1_Load(object sender, EventArgs e)
         {
-           
-        
-
-
-           
-
             sqlConnection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\vladb\source\repos\kursa4\kursa4\Database1.mdf;Integrated Security=True");
             sqlConnection.Open();    
             radioButton1.Checked = true;
@@ -70,8 +58,7 @@ namespace kursa4
         }
 
         private void LoadData()
-        {
-            
+        {           
             try
             {
                 if (sqlBuilder != null){
@@ -92,6 +79,7 @@ namespace kursa4
                     dataGridView1.Columns["Id category"].Visible = false;
                     dataGridView1.Columns["Id"].ReadOnly = true;
                     dataGridView1.Columns["category"].ReadOnly = true;
+                    dataGridView1.Columns["Count"].ReadOnly = true;
                 }
                 else if (TableName == "Operation")
                 {
@@ -101,62 +89,40 @@ namespace kursa4
                     dataGridView1.DataSource = dataSet.Tables[TableName];
                     dataGridView1.Columns["Command"].DisplayIndex = TableIndex;
                     dataGridView1.Columns["Id type"].Visible = false;
+                    dataGridView1.Columns["Count"].ReadOnly = false;
+                    dataGridView1.Columns["type"].ReadOnly = true;
 
                 }
+                
                 else
                 {
+                    
                     dataSet = new DataSet();
                     sqlDataAdapter.Fill(dataSet, TableName);
                     dataGridView1.DataSource = dataSet.Tables[TableName];
                     dataGridView1.Columns["Command"].DisplayIndex = TableIndex;
-                }
-                
-
+                    if (TableName == "[Types Operation]")
+                    {
+                        dataGridView1.Columns["type"].ReadOnly = false;
+                    }
+                }               
                 for (int i = 0; i < dataGridView1.Rows.Count; i++)
                 {
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
                     dataGridView1[TableIndex, i] = linkCell;
                     dataGridView1.Rows[i].Cells[TableIndex].Style.ForeColor = Color.White;
                 }
-               
-
-                PaintElementsDark(color1, color2, textColor);
-
-             
-            }
-
+                PaintElementsDark(color1, color2, textColor);           
+            }     
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message,"Что-то пошло не так", MessageBoxButtons.OK);
             }
 }
         public string[] convert (string myString)
-         {
+        {
             return new[] { myString };
         }
-
-    //public void saveData()
-    //{
-    //    try
-    //    {
-    //        dataSet.Tables[TableName].Clear();
-    //        dataSettmp.Tables[TableName].Clear();
-    //        sqlDataAdapter.Fill(dataSettmp, TableName);
-    //        dataGridView1.DataSource = dataSettmp.Tables[TableName];
-    //        for (int i = 0; i < dataGridView1.Rows.Count; i++)
-    //        {
-    //            DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-    //            dataGridView1[TableIndex, i] = linkCell;
-    //        }
-
-    //    }
-
-    //    catch (Exception ex)
-    //    {
-    //        MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
-    //    }
-
-    //}
 
     private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -164,16 +130,22 @@ namespace kursa4
             TableIndex = 9;
             LoadData();
             this.Text = "Таблица Товары";
-
+            if (newRowAdding == true)
+            {
+                newRowAdding = false;
+            }
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
             TableName = "Operation";
-            TableIndex = 5;
+            TableIndex = 7;
             LoadData();
             this.Text = "Таблица Операции";
-
+            if (newRowAdding == true)
+            {
+                newRowAdding = false;
+            }
         }
 
         private void radioButton3_CheckedChanged(object sender, EventArgs e)
@@ -182,6 +154,10 @@ namespace kursa4
             TableIndex = 2;
             LoadData();
             this.Text = "Таблица типы операций";
+            if (newRowAdding == true)
+            {
+                newRowAdding = false;
+            }
         }
 
         private void radioButton4_CheckedChanged_1(object sender, EventArgs e)
@@ -190,13 +166,11 @@ namespace kursa4
             TableIndex = 2;
             LoadData();
             this.Text = "Таблица Категории";
+            if(newRowAdding == true)
+            {
+                newRowAdding = false;
+            }
         }
-
-
-
-
-
-
 
         private void dataGridView1_UserAddedRow_1(object sender, DataGridViewRowEventArgs e)
         {
@@ -205,14 +179,10 @@ namespace kursa4
                 if (newRowAdding == false)
                 {
                     newRowAdding = true;
-
                     int lastRow = dataGridView1.Rows.Count - 2;
                     DataGridViewRow row = dataGridView1.Rows[lastRow];
-
                     DataGridViewLinkCell linkCell = new DataGridViewLinkCell();
-
                     dataGridView1[TableIndex, lastRow] = linkCell;
-
                     row.Cells["Command"].Value = "Insert";
                 }
             }
@@ -246,16 +216,39 @@ namespace kursa4
                 LoadData();
                 this.Text = "Таблица Пользователи";
                 
-            }
-            
 
+            }
+            if (newRowAdding == true)
+            {
+                newRowAdding = false;
+            }
+        }
+
+        public void addData( int count, int id)
+        {
+            sqlDataAdapter = new SqlDataAdapter("UPDATE Items SET Count = Count +" +count+ " WHERE Id = "+id, sqlConnection);
+            sqlDataAdapter.Fill(dataSet, TableName);
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             try
             {
-                if (e.ColumnIndex== TableIndex)
+                if (e.ColumnIndex == 4 && TableName == "Operation")
+                {
+                    date = new DateTimePicker();
+                    dataGridView1.Controls.Add(date);
+                    date.Format = DateTimePickerFormat.Short;
+                    Rectangle rectangle = dataGridView1.GetCellDisplayRectangle(e.ColumnIndex,e.RowIndex, true);
+                    date.Size = new Size(rectangle.Width, rectangle.Height);
+                    date.Location = new Point(rectangle.X, rectangle.Y);
+                    date.CloseUp += new EventHandler(datetimepicker_closeup);
+                    date.TextChanged += new EventHandler(datetimepicker_textchanged);
+                    date.Visible = true;
+
+                }  
+
+                else if (e.ColumnIndex == TableIndex)
                 {
                     string task = dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value.ToString();
                     if (task == "Delete")
@@ -267,51 +260,35 @@ namespace kursa4
                         }
                         else
                         {
-                            
-                       
                             int rowIndex = e.RowIndex;
                             dataGridView1.DataSource = dataSet.Tables[TableName];
                             dataGridView1.Rows.RemoveAt(rowIndex);
-
                             dataSet = new DataSet();
                             sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
                             sqlDataAdapter.Fill(dataSet, TableName);
                             sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
-
                             sqlBuilder.GetInsertCommand();
-
                             sqlBuilder.GetUpdateCommand();
-
                             sqlBuilder.GetDeleteCommand();
-
                             dataSet.Tables[TableName].Rows[rowIndex].Delete();
-
                             sqlDataAdapter.Update(dataSet, TableName);
-
                             LoadData();
-
                         }
                     }
                     else if (task == "Insert")
                     {
                         int rowIndex = dataGridView1.Rows.Count - 2;
-
-                        //DataRow row = dataSettmp.Tables[TableName].NewRow();
                         dataSet = new DataSet();
                         sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
                         sqlDataAdapter.Fill(dataSet, TableName);
                         sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
-
                         sqlBuilder.GetInsertCommand();
-
                         sqlBuilder.GetUpdateCommand();
-
                         sqlBuilder.GetDeleteCommand();
-
                         dataSet.Tables[TableName].Rows.Add();
-
-                        if (TableName=="Items")
+                        if (TableName == "Items")
                         {
+                            dataGridView1.Rows[e.RowIndex].Cells["Count"].Value = 0;
                             dataSet.Tables[TableName].Rows[rowIndex]["Count"] = dataGridView1.Rows[rowIndex].Cells["Count"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["description"] = dataGridView1.Rows[rowIndex].Cells["description"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["Cost"] = dataGridView1.Rows[rowIndex].Cells["Cost"].Value;
@@ -319,44 +296,63 @@ namespace kursa4
                             dataSet.Tables[TableName].Rows[rowIndex]["Weight"] = dataGridView1.Rows[rowIndex].Cells["Weight"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["Category Id"] = dataGridView1.Rows[rowIndex].Cells["Category Id"].Value;
                         }
-                        else if (TableName=="Operation")
+                        else if (TableName == "Operation")
                         {
+                            string cellValue = dataGridView1.Rows[rowIndex].Cells["Item Id"].Value.ToString();
+                            string count1 = dataGridView1.Rows[rowIndex].Cells["count"].Value.ToString();
+                            int b = System.Convert.ToInt32(cellValue);
+                            int count = System.Convert.ToInt32(count1);
+                            string idoper = dataGridView1.Rows[rowIndex].Cells["type Operation"].Value.ToString();
+                            int idoper1 = System.Convert.ToInt32(idoper);
+                            if (idoper1 == 1)
+                            {
+                                addData(count, b);
+                            }
+                            else if (idoper1 == 2)
+                            {
+                                addData(0 - count, b);
+                            }
+                            sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
+                            dataSet = new DataSet();
+                            sqlDataAdapter.Fill(dataSet, TableName);
+                            dataSet.Tables[TableName].Rows.Add();
                             dataSet.Tables[TableName].Rows[rowIndex]["Item Id"] = dataGridView1.Rows[rowIndex].Cells["Item Id"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["type Operation"] = dataGridView1.Rows[rowIndex].Cells["type Operation"].Value;
-
-                            //DateTime dt = DateTime.Parse(row["Date"].ToString());
-                            //row["Date"] = dt.ToShortDateString();
+                            dataSet.Tables[TableName].Rows[rowIndex]["date"] = dataGridView1.Rows[rowIndex].Cells["date"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["count"] = dataGridView1.Rows[rowIndex].Cells["count"].Value;
                         }
                         else if (TableName == "Category")
                         {
                             dataSet.Tables[TableName].Rows[rowIndex]["Id category"] = dataGridView1.Rows[rowIndex].Cells["Id category"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["category"] = dataGridView1.Rows[rowIndex].Cells["category"].Value;
                         }
-                        else if(TableName=="[Types Operation]")
+                        else if (TableName == "[Types Operation]")
                         {
                             dataSet.Tables[TableName].Rows[rowIndex]["type"] = dataGridView1.Rows[rowIndex].Cells["type"].Value;
                         }
+                        else if (TableName == "Users")
+                        {
+                            dataSet.Tables[TableName].Rows[rowIndex]["Login"] = dataGridView1.Rows[rowIndex].Cells["Login"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Password"] = dataGridView1.Rows[rowIndex].Cells["Password"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["Admin"] = dataGridView1.Rows[rowIndex].Cells["Admin"].Value;
+                        }
                         dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value = "Delete";
+                        sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
+                        sqlBuilder.GetInsertCommand();
+                        sqlBuilder.GetUpdateCommand();
+                        sqlBuilder.GetDeleteCommand();
                         sqlDataAdapter.Update(dataSet, TableName);
                         sqlDataAdapter.Fill(dataSet, TableName);
-                        //dataSet.Tables[TableName].Rows.Add(row);
-
-                        //dataSet.Tables[TableName].Rows.RemoveAt(dataSet.Tables[TableName].Rows.Count - 1);
-
-                        //dataGridView1.Rows.RemoveAt(dataGridView1.Rows.Count - 2);
-
                         newRowAdding = false;
                         LoadData();
+                  
                     }
                     else if (task == "Update")
                     {
                         dataSet = new DataSet();
                         sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
                         sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
-
-
                         sqlDataAdapter.Fill(dataSet, TableName);
-
 
                         sqlBuilder.GetInsertCommand();
 
@@ -372,7 +368,6 @@ namespace kursa4
                         else if (TableName == "Types Operation")
                         {
                             dataSet.Tables[TableName].Rows[rowIndex]["type"] = dataGridView1.Rows[rowIndex].Cells["type"].Value;
-
                         }
                         else if (TableName == "Items")
                         {
@@ -387,9 +382,11 @@ namespace kursa4
                             dataSet.Tables[TableName].Rows[rowIndex]["Category Id"] = dataGridView1.Rows[rowIndex].Cells["Category Id"].Value;
                         }
                         else if (TableName == "Operation")
-                        {
+                        {                         
                             dataSet.Tables[TableName].Rows[rowIndex]["Item Id"] = dataGridView1.Rows[rowIndex].Cells["Item Id"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["Type operation"] = dataGridView1.Rows[rowIndex].Cells["Type operation"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["date"] = dataGridView1.Rows[rowIndex].Cells["date"].Value;
+                            dataSet.Tables[TableName].Rows[rowIndex]["count"] = dataGridView1.Rows[rowIndex].Cells["count"].Value;  
                         }
                         else if (TableName == "Users")
                         {
@@ -397,38 +394,47 @@ namespace kursa4
                             dataSet.Tables[TableName].Rows[rowIndex]["Password"] = dataGridView1.Rows[rowIndex].Cells["Password"].Value;
                             dataSet.Tables[TableName].Rows[rowIndex]["Admin"] = dataGridView1.Rows[rowIndex].Cells["Admin"].Value;
                         }
-                            //dataSet = new DataSet();
-                            //sqlDataAdapter = new SqlDataAdapter("SELECT *, 'Delete' AS [Command] FROM " + TableName, sqlConnection);
-                            //sqlDataAdapter.Fill(dataSet, TableName);
-                            //sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
+                        sqlBuilder = new SqlCommandBuilder(sqlDataAdapter);
+                        sqlBuilder.GetInsertCommand();
 
-                            //sqlBuilder.GetInsertCommand();
+                        sqlBuilder.GetUpdateCommand();
 
-                            //sqlBuilder.GetUpdateCommand();
-
-                            //sqlBuilder.GetDeleteCommand();
-
-                            sqlDataAdapter.Update(dataSet, TableName);
-                            dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value = "Delete";
+                        sqlBuilder.GetDeleteCommand();
+                        sqlDataAdapter.Update(dataSet, TableName);
+                        dataGridView1.Rows[e.RowIndex].Cells[TableIndex].Value = "Delete";
 
                         LoadData();
-
                     }
-                    
                     else
                     {
-                        MessageBox.Show("дадааа", "Что-то пошло не так", MessageBoxButtons.YesNo);
+                        MessageBox.Show("Все сломалось", "Что-то пошло не так", MessageBoxButtons.YesNo);
                     }
-                    
+
                 }
                
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+            }  
+        }
+
+        private void datetimepicker_textchanged(object sender, EventArgs e)
+        {
+            try
+            {
+             dataGridView1.CurrentCell.Value = date.Text.ToString();
             }
-           
-            
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
+            }
+        }
+
+        private void datetimepicker_closeup(object sender, EventArgs e)
+        {
+            date.Visible = false;
+            date = null;
         }
 
         private void dataGridView1_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
@@ -436,20 +442,37 @@ namespace kursa4
             e.Control.KeyPress -= new KeyPressEventHandler(Column_KeyPress);
             if (TableName=="Items")
             {
-                if (dataGridView1.CurrentCell.ColumnIndex == 6)
+                if (dataGridView1.CurrentCell.ColumnIndex == 6 || dataGridView1.CurrentCell.ColumnIndex == 3)
                 {
                     TextBox textBox = e.Control as TextBox;
                     if (textBox != null)
                     {
                         textBox.KeyPress += new KeyPressEventHandler(Column_KeyPress);
-
+                    }
+                }
+            }  
+            else if(TableName== "Operation")
+            {
+                if (dataGridView1.CurrentCell.ColumnIndex == 0 || dataGridView1.CurrentCell.ColumnIndex == 1 || dataGridView1.CurrentCell.ColumnIndex == 2 || dataGridView1.CurrentCell.ColumnIndex == 3)
+                {
+                    TextBox textBox = e.Control as TextBox;
+                    if (textBox != null)
+                    {
+                        textBox.KeyPress += new KeyPressEventHandler(Column_KeyPress);
                     }
                 }
             }
-                
-           
-                
-           
+            else if (TableName == "[Types Operation]")
+            {
+                if (dataGridView1.CurrentCell.ColumnIndex == 0)
+                {
+                    TextBox textBox = e.Control as TextBox;
+                    if (textBox != null)
+                    {
+                        textBox.KeyPress += new KeyPressEventHandler(Column_KeyPress);
+                    }
+                }
+            }
         }
 
 
@@ -470,7 +493,6 @@ namespace kursa4
                     editinRow.Cells["Command"].Value = "Update";
                 }
             }
-            
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Что-то пошло не так", MessageBoxButtons.OK);
@@ -485,22 +507,16 @@ namespace kursa4
             }
         }
 
-
        public void PaintElementsDark(Color paint1, Color paint2,Color color )
-        {
-             
+        { 
             for (int row = 0; row < dataGridView1.Rows.Count; row++)
-            {
-                // Iterate over the total number of Columns
+            {       
                 for (int col = 0; col <dataGridView1.ColumnCount; col++)
-                {
-                    // Paint cell location (column, row)
+                {          
                     dataGridView1[col, row].Style.BackColor = paint1;
                     dataGridView1[col, row].Style.ForeColor = color;
                 }
             }
-
-
             panelLogo.BackColor = paint1;
             tableLayoutPanel2.BackColor = paint2;
             tableLayoutPanel2.ForeColor = color;
@@ -514,8 +530,6 @@ namespace kursa4
             panelMenu.BackColor = paint2;
             label1.ForeColor = color;
             label2.ForeColor = color;
-
-
             frm3.panel1.BackColor = paint2;
             frm3.comboBox1.BackColor = paint1;
             frm3.comboBox2.BackColor = paint1;
@@ -524,9 +538,6 @@ namespace kursa4
             frm3.label1.ForeColor = color;
             frm3.label2.ForeColor = color;
             frm3.label3.ForeColor = color;
-
-            
-
             color1 = Properties.Settings.Default.color1 =paint1;
             Properties.Settings.Default.color1 = paint1;
             color2 = Properties.Settings.Default.color2=paint2;
@@ -536,11 +547,7 @@ namespace kursa4
             Properties.Settings.Default.Save();
         }
 
-
-
-
         public void ChooseColor(int CurrentIndex)
-
         {
             if (CurrentIndex == 0)
             {
@@ -548,8 +555,6 @@ namespace kursa4
                 Color painting1 = Color.FromArgb( 39, 39, 58 );
                 Color painting2 = Color.FromArgb(51, 51, 72);
                 PaintElementsDark(painting1, painting2, color);
-
-
             }
             else if (CurrentIndex == 1)
             {
@@ -557,7 +562,6 @@ namespace kursa4
                 Color painting1 = Color.FromArgb(230, 255, 255 );
                 Color painting2 = Color.FromArgb(210, 245, 245 );
                 PaintElementsDark(painting1, painting2, color);
-
             }
             
             
@@ -579,20 +583,10 @@ namespace kursa4
             IndexPaint = CurrentIndex;
         }
 
-
-
-
-
-        
-
         private void btnQuit_Click(object sender, EventArgs e)
         {
             Close();
         }
-
-       
-
-       
 
         private void btnSettingsPage_Click_1(object sender, EventArgs e)
         {
@@ -646,9 +640,7 @@ namespace kursa4
         }
 
         public void panelLogo_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+        { }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         { }
@@ -665,9 +657,7 @@ namespace kursa4
         { }
 
         public void label1_Click(object sender, EventArgs e)
-        {
-
-        }
+        { }
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -683,12 +673,9 @@ namespace kursa4
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-
             Properties.Settings.Default.color1 = color1;
             Properties.Settings.Default.color2 = color1;
             Properties.Settings.Default.textcolor = textColor;
-
-
         }
     }
 }
